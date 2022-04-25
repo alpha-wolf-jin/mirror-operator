@@ -80,3 +80,55 @@ The four primary official indexes the OpenShift Container Platform uses are:
 
 
 ```
+
+## Setting up Mirror Registry for Cluster Deployment
+
+https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asean/sg/mha/mha-prod-ocp4.7-3789831#user-content-setting-up-mirror-registry-for-cluster-deployment
+
+**5.2.8. Setting up Mirror Registry for Cluster Deployment**
+
+```
+[root@bastion ~]# cd /opt/registry/certs/
+
+[root@bastion certs]# openssl genrsa -out Ext-Registry-CA.key 2048
+
+[root@bastion certs]# openssl req -x509 -new -nodes -key Ext-Registry-CA.key -sha256 -days 1095 -out Ext-Registry-CA.pem
+
+[root@bastion certs]# hostname
+bastion.8g59s.internal
+
+[root@bastion certs]# openssl req -new -key Ext-Registry-CA.key -out bastion.csr
+
+[root@bastion certs]# vi san.txt
+subjectAltName = DNS:bastion.8g59s.internal, DNS:localhost
+
+[root@bastion certs]#  openssl x509 -req -in bastion.csr -CA Ext-Registry-CA.pem -CAkey Ext-Registry-CA.key -CAcreateserial -out bastion.pem -days 1024 -sha256 -extfile san.txt
+
+[root@bastion certs]# htpasswd -bBc /opt/registry/auth/htpasswd register-adm redhat123
+
+[root@bastion certs]# yum install podman httpd-tools -y
+
+[root@bastion certs]# podman run --name mirror-registry -p 5000:5000 \
+      -v /opt/registry/data:/var/lib/registry:z \
+      -v /opt/registry/auth:/auth:z \
+      -e "REGISTRY_AUTH=htpasswd" \
+      -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+      -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+      -v /opt/registry/certs:/certs:z \
+      -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/bastion.pem \
+      -e REGISTRY_HTTP_TLS_KEY=/certs/Ext-Registry-CA.key \
+      -e REGISTRY_COMPATIBILITY_SCHEMA1_ENABLED=true \
+      -d docker.io/library/registry:2.7.1
+
+[root@bastion certs]# cp /opt/registry/certs/Ext-Registry-CA.pem /etc/pki/ca-trust/source/anchors/.
+
+[root@bastion certs]# update-ca-trust
+
+[root@bastion certs]# curl -u register-adm:redhat123 https://localhost:5000/v2/_catalog
+{"repositories":[]}
+
+[root@bastion certs]# curl -u register-adm:redhat123 https://$(hostname -f):5000/v2/_catalog
+{"repositories":[]}
+
+```
+
