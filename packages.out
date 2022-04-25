@@ -1,0 +1,240 @@
+{
+  "name": "aikit-operator"
+}
+{
+  "name": "ako-operator"
+}
+{
+  "name": "anchore-engine"
+}
+{
+  "name": "anzo-operator"
+}
+{
+  "name": "anzograph-operator"
+}
+{
+  "name": "anzounstructured-operator"
+}
+{
+  "name": "cass-operator"
+}
+{
+  "name": "ccm-node-agent-dcap-operator"
+}
+{
+  "name": "ccm-node-agent-operator"
+}
+{
+  "name": "cilium"
+}
+{
+  "name": "cisco-hxcsi-operator"
+}
+{
+  "name": "citrix-adc-istio-ingress-gateway-operator"
+}
+{
+  "name": "citrix-cpx-istio-sidecar-injector-operator"
+}
+{
+  "name": "citrix-cpx-with-ingress-controller-operator"
+}
+{
+  "name": "citrix-ingress-controller-operator"
+}
+{
+  "name": "cloud-native-postgresql"
+}
+{
+  "name": "cloudbees-ci"
+}
+{
+  "name": "couchbase-enterprise-certified"
+}
+{
+  "name": "crunchy-postgres-operator"
+}
+{
+  "name": "dell-csi-operator-certified"
+}
+{
+  "name": "dynatrace-operator"
+}
+{
+  "name": "elasticsearch-eck-operator-certified"
+}
+{
+  "name": "entando-k8s-operator"
+}
+{
+  "name": "federatorai-certified"
+}
+{
+  "name": "fep-ansible-operator"
+}
+{
+  "name": "fujitsu-enterprise-operator"
+}
+{
+  "name": "fujitsu-enterprise-postgres-operator"
+}
+{
+  "name": "gitlab-runner-operator"
+}
+{
+  "name": "gpu-operator-certified"
+}
+{
+  "name": "grafana-cloud-log-forwarder-operator"
+}
+{
+  "name": "hazelcast-platform-operator"
+}
+{
+  "name": "hpe-csi-operator"
+}
+{
+  "name": "hpe-ezmeral-csi-operator"
+}
+{
+  "name": "ibm-application-gateway-operator"
+}
+{
+  "name": "ibm-block-csi-operator"
+}
+{
+  "name": "ibm-security-verify-operator"
+}
+{
+  "name": "ibmz-mongodb-enterprise-operator"
+}
+{
+  "name": "infinibox-operator-certified"
+}
+{
+  "name": "infoscale-operator"
+}
+{
+  "name": "installkit-customer"
+}
+{
+  "name": "instana-agent-operator"
+}
+{
+  "name": "iomesh-operator"
+}
+{
+  "name": "joget-dx-operator"
+}
+{
+  "name": "k8s-triliovault"
+}
+{
+  "name": "k8s-triliovault-ibm"
+}
+{
+  "name": "kubemq-operator-marketplace"
+}
+{
+  "name": "kubeturbo-certified"
+}
+{
+  "name": "linstor-operator"
+}
+{
+  "name": "marketplace-games-operator"
+}
+{
+  "name": "memcached-operator-ogaye"
+}
+{
+  "name": "memory-machine-operator"
+}
+{
+  "name": "minio-operator"
+}
+{
+  "name": "neuvector-certified-operator"
+}
+{
+  "name": "nginx-ingress-operator"
+}
+{
+  "name": "nutanixcsioperator"
+}
+{
+  "name": "nxiq-operator-certified"
+}
+{
+  "name": "nxrm-operator-certified"
+}
+{
+  "name": "open-liberty-certified"
+}
+{
+  "name": "openshiftartifactoryha-operator"
+}
+{
+  "name": "openshiftxray-operator"
+}
+{
+  "name": "ovms-operator"
+}
+{
+  "name": "pachyderm-operator"
+}
+{
+  "name": "pcc-operator"
+}
+{
+  "name": "pmem-csi-operator-os"
+}
+{
+  "name": "portworx-certified"
+}
+{
+  "name": "prometurbo-certified"
+}
+{
+  "name": "redhat-marketplace-operator"
+}
+{
+  "name": "rookout-k8s-operator"
+}
+{
+  "name": "runtime-component-operator-certified"
+}
+{
+  "name": "sanstoragecsi-operator-bundle"
+}
+{
+  "name": "seldon-operator-certified"
+}
+{
+  "name": "smilecdr-operator"
+}
+{
+  "name": "sriov-fec"
+}
+{
+  "name": "sysdig-certified"
+}
+{
+  "name": "tigera-operator"
+}
+{
+  "name": "timemachine-operator"
+}
+{
+  "name": "uma-operator"
+}
+{
+  "name": "vfunction-server-operator"
+}
+{
+  "name": "xcrypt-operator"
+}
+{
+  "name": "zabbix-operator-certified"
+}
