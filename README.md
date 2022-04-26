@@ -172,85 +172,12 @@ Open new session and run
 
 [root@bastion mirror-operator]# opm index prune -f registry.redhat.io/redhat/certified-operator-index:v4.9 -p gpu-operator-certified -t localhost:5000/olm-mirror/certified-operator-index:v4.9
 
-```
+[root@bastion mirror-operator]# podman push localhost:5000/olm-mirror/certified-operator-index:v4.9
 
-https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/openshift/mirror-gpu-ocp-disconnected.html
+[root@bastion mirror-operator]# curl -u admin:redhat123 https://localhost:5000/v2/_catalog
+{"repositories":["olm-mirror/certified-operator-index"]}
 
-The four primary official indexes the OpenShift Container Platform uses are:
-
-- registry.redhat.io/redhat/certified-operator-index:v4.9
-- registry.redhat.io/redhat/redhat-operator-index:v4.9
-- registry.redhat.io/redhat/community-operator-index:v4.9
-- registry.redhat.io/redhat/redhat-marketplace-index:v4.9
+[root@bastion mirror-operator]# curl -u admin:redhat123 https://localhost:5000/v2/olm-mirror/certified-operator-index/tags/list
+{"name":"olm-mirror/certified-operator-index","tags":["v4.9"]}
 
 ```
-
-[lab-user@bastion mirror]$ podman run -p50051:50051 -it registry.redhat.io/redhat/certified-operator-index:v4.10
-
-```
-
-```
-[lab-user@bastion mirror]$ grpcurl -plaintext localhost:50051 api.Registry/ListPackages > packages.out
-
-[lab-user@bastion mirror]$ vim packages.out
-...
-{
-  "name": "gpu-operator-certified"
-}
-...
-
-
-```
-
-## Setting up Mirror Registry for Cluster Deployment
-
-https://gitlab.consulting.redhat.com/customer-success/consulting-engagement-reports/client-cers/asean/sg/mha/mha-prod-ocp4.7-3789831#user-content-setting-up-mirror-registry-for-cluster-deployment
-
-**5.2.8. Setting up Mirror Registry for Cluster Deployment**
-
-```
-[root@bastion ~]# cd /opt/registry/certs/
-
-[root@bastion certs]# openssl genrsa -out Ext-Registry-CA.key 2048
-
-[root@bastion certs]# openssl req -x509 -new -nodes -key Ext-Registry-CA.key -sha256 -days 1095 -out Ext-Registry-CA.pem
-
-[root@bastion certs]# hostname
-bastion.8g59s.internal
-
-[root@bastion certs]# openssl req -new -key Ext-Registry-CA.key -out bastion.csr
-
-[root@bastion certs]# vi san.txt
-subjectAltName = DNS:bastion.8g59s.internal, DNS:localhost
-
-[root@bastion certs]#  openssl x509 -req -in bastion.csr -CA Ext-Registry-CA.pem -CAkey Ext-Registry-CA.key -CAcreateserial -out bastion.pem -days 1024 -sha256 -extfile san.txt
-
-[root@bastion certs]# htpasswd -bBc /opt/registry/auth/htpasswd register-adm redhat123
-
-[root@bastion certs]# yum install podman httpd-tools -y
-
-[root@bastion certs]# podman run --name mirror-registry -p 5000:5000 \
-      -v /opt/registry/data:/var/lib/registry:z \
-      -v /opt/registry/auth:/auth:z \
-      -e "REGISTRY_AUTH=htpasswd" \
-      -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
-      -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
-      -v /opt/registry/certs:/certs:z \
-      -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/bastion.pem \
-      -e REGISTRY_HTTP_TLS_KEY=/certs/Ext-Registry-CA.key \
-      -e REGISTRY_COMPATIBILITY_SCHEMA1_ENABLED=true \
-      -d docker.io/library/registry:2.7.1
-
-[root@bastion certs]# cp /opt/registry/certs/Ext-Registry-CA.pem /etc/pki/ca-trust/source/anchors/.
-
-[root@bastion certs]# update-ca-trust
-
-[root@bastion certs]# curl -u register-adm:redhat123 https://localhost:5000/v2/_catalog
-{"repositories":[]}
-
-[root@bastion certs]# curl -u register-adm:redhat123 https://$(hostname -f):5000/v2/_catalog
-{"repositories":[]}
-
-```
-
-
