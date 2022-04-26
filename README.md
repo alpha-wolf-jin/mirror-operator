@@ -147,18 +147,13 @@ Run on one session
 NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
 version   4.9.0     True        False         13h     Cluster version is 4.9.0
 
-# Geneate the pruned the source index image
 [root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/certified-operator-index:v4.9
-
-# push the new index image to the target registry
-[root@bastion mirror-operator]# podman push localhost:5000/olm-mirror/certified-operator-index:v4.9
-
 
 ```
 
 ## Mirroring an Operator catalog
 
-**Pruning an index image**
+**Pruning & Push an index image**
 
 Open new session and run
 
@@ -170,8 +165,10 @@ Open new session and run
   "name": "gpu-operator-certified"
 }
 
+# Geneate the pruned the source index image
 [root@bastion mirror-operator]# opm index prune -f registry.redhat.io/redhat/certified-operator-index:v4.9 -p gpu-operator-certified -t localhost:5000/olm-mirror/certified-operator-index:v4.9
 
+# push the new index image to the target registry
 [root@bastion mirror-operator]# podman push localhost:5000/olm-mirror/certified-operator-index:v4.9
 
 [root@bastion mirror-operator]# curl -u admin:redhat123 https://localhost:5000/v2/_catalog
