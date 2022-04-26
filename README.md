@@ -178,3 +178,121 @@ Open new session and run
 {"name":"olm-mirror/certified-operator-index","tags":["v4.9"]}
 
 ```
+
+## Mirror
+
+```
+[root@bastion mirror-operator]# podman login --authfile ./auth.json localhost:5000
+
+[root@bastion mirror-operator]# podman login --authfile ./auth.json registry.redhat.io
+
+[root@bastion mirror-operator]# cat ./auth.json
+{
+	"auths": {
+		"localhost:5000": {
+			"auth": "YWRtaW46cmVkaGF0MTIz"
+		},
+		"registry.redhat.io": {
+			"auth": "TUhxxxx="
+		}
+	}
+}[root@bastion mirror-operator]# 
+
+[root@bastion mirror-operator]# export REG_CREDS=$(realpath auth.json)
+
+
+# Genate the ImageContentSourcePolicy
+# Change `localhost:5000` as you want
+[root@bastion mirror-operator]# oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 localhost:5000 -a ${REG_CREDS} --index-filter-by-os='linux/amd64' --manifests-only
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! DEPRECATION NOTICE:
+!!   Sqlite-based catalogs are deprecated. Support for them will be removed in a
+!!   future release. Please migrate your catalog workflows to the new file-based
+!!   catalog format.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+src image has index label for database path: /database/index.db
+using index path mapping: /database/index.db:/tmp/155456770
+wrote database to /tmp/155456770
+using database at: /tmp/155456770/index.db
+no digest mapping available for localhost:5000/olm-mirror/certified-operator-index:v4.9, skip writing to ImageContentSourcePolicy
+wrote mirroring manifests to manifests-certified-operator-index-1650944053
+
+[root@bastion mirror-operator]# ls
+auth.json  manifests-certified-operator-index-1650944053  packages.out  README.md
+
+[root@bastion mirror-operator]# cat manifests-certified-operator-index-1650944053/imageContentSourcePolicy.yaml 
+---
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  labels:
+    operators.openshift.org/catalog: "true"
+  name: certified-operator-index-0
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - localhost:5000/nvidia/cloud-native-k8s-driver-manager
+    source: nvcr.io/nvidia/cloud-native/k8s-driver-manager
+  - mirrors:
+    - localhost:5000/nvidia/k8s-container-toolkit
+    source: nvcr.io/nvidia/k8s/container-toolkit
+  - mirrors:
+    - localhost:5000/nvidia/cloud-native-k8s-mig-manager
+    source: nvcr.io/nvidia/cloud-native/k8s-mig-manager
+  - mirrors:
+    - localhost:5000/nvidia/gpu-operator
+    source: nvcr.io/nvidia/gpu-operator
+  - mirrors:
+    - localhost:5000/nvidia/cuda
+    source: docker.io/nvidia/cuda
+  - mirrors:
+    - localhost:5000/nvidia/driver
+    source: nvcr.io/nvidia/driver
+  - mirrors:
+    - localhost:5000/nvidia/gpu-feature-discovery
+    source: nvcr.io/nvidia/gpu-feature-discovery
+  - mirrors:
+    - localhost:5000/nvidia/k8s-dcgm-exporter
+    source: nvcr.io/nvidia/k8s/dcgm-exporter
+  - mirrors:
+    - localhost:5000/nvidia/k8s-device-plugin
+    source: nvcr.io/nvidia/k8s-device-plugin
+  - mirrors:
+    - localhost:5000/nvidia/gpu-operator-bundle
+    source: registry.connect.redhat.com/nvidia/gpu-operator-bundle
+  - mirrors:
+    - localhost:5000/nvidia/cloud-native-dcgm
+    source: nvcr.io/nvidia/cloud-native/dcgm
+  - mirrors:
+    - localhost:5000/nvidia/cloud-native-gpu-operator-validator
+    source: nvcr.io/nvidia/cloud-native/gpu-operator-validator
+  - mirrors:
+    - localhost:5000/nvidia/k8s-cuda-sample
+    source: nvcr.io/nvidia/k8s/cuda-sample
+  - mirrors:
+    - localhost:5000/nvidia/cuda
+    source: nvcr.io/nvidia/cuda
+
+# Download the iamges
+[root@bastion mirror-operator]# oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
+...
+error: unable to retrieve source image registry.connect.redhat.com/nvidia/gpu-operator-bundle manifest sha256:6383973010999a769a803ca4042a0c316b7206ae335deb618760315e11d8ef9a: Get "https://registry.connect.redhat.com/v2/nvidia/gpu-operator-bundle/manifests/sha256:6383973010999a769a803ca4042a0c316b7206ae335deb618760315e11d8ef9a": unauthorized: Please login to the Red Hat Registry using your Customer Portal credentials. Further instructions can be found here: https://access.redhat.com/RegistryAuthentication
+...
+info: Mirroring completed in 2m17.18s (59.46MB/s)
+error mirroring image: one or more errors occurred
+wrote mirroring manifests to manifests-certified-operator-index-1650944309
+
+To upload local images to a registry, run:
+
+	oc adm catalog mirror file://local/index/olm-mirror/certified-operator-index:v4.9 REGISTRY/REPOSITORY
+
+[root@bastion mirror-operator]# podman login --authfile ./auth.json registry.connect.redhat.com
+
+[root@bastion mirror-operator]#oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
+...
+error: unable to retrieve source image nvcr.io/nvidia/driver manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf: manifest unknown: manifest unknown
+...
+
+```
