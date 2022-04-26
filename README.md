@@ -276,7 +276,13 @@ spec:
   - mirrors:
     - localhost:5000/nvidia/cuda
     source: nvcr.io/nvidia/cuda
+```
 
+
+
+**Error: registry.connect.redhat.com unauthorized**
+
+```
 # Download the iamges
 [root@bastion mirror-operator]# oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
 ...
@@ -292,6 +298,13 @@ To upload local images to a registry, run:
 
 [root@bastion mirror-operator]# podman login --authfile ./auth.json registry.connect.redhat.com
 
+```
+
+
+
+**Error manifest unknown**
+
+```
 [root@bastion mirror-operator]#oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
 ...
 error: unable to retrieve source image nvcr.io/nvidia/driver manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf: manifest unknown: manifest unknown
