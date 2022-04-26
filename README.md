@@ -3,6 +3,8 @@
 Reference:
 [OpenShift Pages](https://docs.openshift.com/container-platform/4.10/operators/admin/olm-restricted-networks.html)
 
+git add . ; git commit -a -m "update README" ; git push -u origin main
+
 ## install grpcurl (third-party command-line tool)
 
 ```
