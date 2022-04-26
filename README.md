@@ -40,6 +40,7 @@ Version:            1.6.4
 [root@bastion ~]# podman version
 Version:            1.9.3
 
+```
 
 
 ## Create local image repo ##
