@@ -355,3 +355,10 @@ FATA[0001] Error parsing image name "docker://nvcr.io/nvidia/driver@sha256:d4639
 ```
 
 # Realize the port 5000 on bastion is blocked, Need find other place for disconnected registry #
+
+Refer to : https://github.com/alpha-wolf-jin/mirror-registry-in-ocp
+
+New mirror registry: docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com
+user / Password:  admin:redhat123
+
+
