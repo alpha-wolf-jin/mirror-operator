@@ -353,3 +353,5 @@ FATA[0001] Error parsing image name "docker://nvcr.io/nvidia/driver@sha256:d4639
 
 
 ```
+
+# Realize the port 5000 on bastion is blocked, Need find other place for disconnected registry #
