@@ -117,7 +117,19 @@ Login Succeeded!
 
 ```
 
-## Mirror ##
+## Mirror GPU Operator ##
+
+>**GPU Operator is in certified-operator-index instead of redhat-operator-index**
+
+https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/openshift/mirror-gpu-ocp-disconnected.html
+
+The four primary official indexes the OpenShift Container Platform uses are:
+
+- registry.redhat.io/redhat/certified-operator-index:v4.9
+- registry.redhat.io/redhat/redhat-operator-index:v4.9
+- registry.redhat.io/redhat/community-operator-index:v4.9
+- registry.redhat.io/redhat/redhat-marketplace-index:v4.9
+
 
 **Authenticate with registry.redhat.io**
 
@@ -135,24 +147,30 @@ Run on one session
 NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
 version   4.9.0     True        False         13h     Cluster version is 4.9.0
 
+# Geneate the pruned the source index image
 [root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/certified-operator-index:v4.9
+
+# push the new index image to the target registry
+[root@bastion mirror-operator]# podman push localhost:5000/olm-mirror/certified-operator-index:v4.9
 
 
 ```
 
-**Cannot find gpu operator**
+## Mirroring an Operator catalog
+
+**Pruning an index image**
 
 Open new session and run
 
 ```
-[root@bastion certs]# oc get clusterversion
-NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
-version   4.9.0     True        False         13h     Cluster version is 4.9.0
-[root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/redhat-operator-index:v4.9
+[root@bastion mirror-operator]# grpcurl -plaintext localhost:50051 api.Registry/ListPackages > packages.out
 
-[lab-user@bastion mirror]$ grpcurl -plaintext localhost:50051 api.Registry/ListPackages > packages.out
+[root@bastion mirror-operator]# grep -1 -i gpu packages.out
+{
+  "name": "gpu-operator-certified"
+}
 
-[lab-user@bastion mirror]$ grep -i gpu packages.out 
+[root@bastion mirror-operator]# opm index prune -f registry.redhat.io/redhat/certified-operator-index:v4.9 -p gpu-operator-certified -t localhost:5000/olm-mirror/certified-operator-index:v4.9
 
 ```
 

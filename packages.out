@@ -1,4 +1,7 @@
 {
+  "name": "aci-containers-operator"
+}
+{
   "name": "aikit-operator"
 }
 {
@@ -15,6 +18,15 @@
 }
 {
   "name": "anzounstructured-operator"
+}
+{
+  "name": "aqua-operator-certified"
+}
+{
+  "name": "can-operator"
+}
+{
+  "name": "carbonetes-operator"
 }
 {
   "name": "cass-operator"
@@ -50,10 +62,28 @@
   "name": "cloudbees-ci"
 }
 {
+  "name": "cloudcasa-operator"
+}
+{
+  "name": "cockroachdb-certified"
+}
+{
+  "name": "confluent-for-kubernetes"
+}
+{
+  "name": "conjur-follower-operator"
+}
+{
   "name": "couchbase-enterprise-certified"
 }
 {
+  "name": "couchdb-operator-certified"
+}
+{
   "name": "crunchy-postgres-operator"
+}
+{
+  "name": "datadog-operator-certified"
 }
 {
   "name": "dell-csi-operator-certified"
@@ -66,6 +96,12 @@
 }
 {
   "name": "entando-k8s-operator"
+}
+{
+  "name": "f5-bigip-ctlr-operator"
+}
+{
+  "name": "f5-ipam-controller-operator"
 }
 {
   "name": "federatorai-certified"
@@ -92,10 +128,19 @@
   "name": "hazelcast-platform-operator"
 }
 {
+  "name": "headspinunifiedcontroller"
+}
+{
+  "name": "hello-world-operator"
+}
+{
   "name": "hpe-csi-operator"
 }
 {
   "name": "hpe-ezmeral-csi-operator"
+}
+{
+  "name": "hspc-operator"
 }
 {
   "name": "ibm-application-gateway-operator"
@@ -105,6 +150,12 @@
 }
 {
   "name": "ibm-security-verify-operator"
+}
+{
+  "name": "ibm-spectrum-symphony-operator"
+}
+{
+  "name": "ibm-storage-odf-operator"
 }
 {
   "name": "ibmz-mongodb-enterprise-operator"
@@ -125,6 +176,9 @@
   "name": "iomesh-operator"
 }
 {
+  "name": "jinhli-demo-operator"
+}
+{
   "name": "joget-dx-operator"
 }
 {
@@ -134,6 +188,9 @@
   "name": "k8s-triliovault-ibm"
 }
 {
+  "name": "kong-offline-operator"
+}
+{
   "name": "kubemq-operator-marketplace"
 }
 {
@@ -141,6 +198,9 @@
 }
 {
   "name": "linstor-operator"
+}
+{
+  "name": "mantaflow-operator"
 }
 {
   "name": "marketplace-games-operator"
@@ -155,6 +215,9 @@
   "name": "minio-operator"
 }
 {
+  "name": "mongodb-enterprise"
+}
+{
   "name": "neuvector-certified-operator"
 }
 {
@@ -162,6 +225,9 @@
 }
 {
   "name": "nutanixcsioperator"
+}
+{
+  "name": "nvidia-network-operator"
 }
 {
   "name": "nxiq-operator-certified"
@@ -185,7 +251,19 @@
   "name": "pachyderm-operator"
 }
 {
+  "name": "pan-cn-series-operator"
+}
+{
   "name": "pcc-operator"
+}
+{
+  "name": "percona-postgresql-operator-certified"
+}
+{
+  "name": "percona-server-mongodb-operator-certified"
+}
+{
+  "name": "percona-xtradb-cluster-operator-certified"
 }
 {
   "name": "pmem-csi-operator-os"
@@ -200,6 +278,9 @@
   "name": "redhat-marketplace-operator"
 }
 {
+  "name": "redis-enterprise-operator-cert"
+}
+{
   "name": "rookout-k8s-operator"
 }
 {
@@ -212,13 +293,28 @@
   "name": "seldon-operator-certified"
 }
 {
+  "name": "simple-demo-operator"
+}
+{
   "name": "smilecdr-operator"
 }
 {
   "name": "sriov-fec"
 }
 {
+  "name": "storageos2"
+}
+{
   "name": "sysdig-certified"
+}
+{
+  "name": "t8c-certified"
+}
+{
+  "name": "tc-simple-demo-operator"
+}
+{
+  "name": "tenant-operator"
 }
 {
   "name": "tigera-operator"
@@ -233,7 +329,13 @@
   "name": "vfunction-server-operator"
 }
 {
+  "name": "vsphere-kubernetes-drivers-operator"
+}
+{
   "name": "xcrypt-operator"
+}
+{
+  "name": "xspc-operator"
 }
 {
   "name": "zabbix-operator-certified"
