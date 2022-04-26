@@ -401,4 +401,11 @@ error: unable to retrieve source image nvcr.io/nvidia/driver manifest sha256:d46
     ]
 }
 
+# The digest `d46393d6...` does not exist
+[root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver | grep d46393d6
+[root@bastion mirror-operator]#
+
+# Tag works
+[root@bastion mirror-operator]# podman pull docker://nvcr.io/nvidia/driver:510.47.03-rhcos4.9
+
 ```
