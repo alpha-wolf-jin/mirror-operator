@@ -284,7 +284,7 @@ spec:
 
 ```
 # Download the iamges
-[root@bastion mirror-operator]# oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
+[root@bastion mirror-operator]# oc adm catalog mirror localhost:5000/olm-mirror/certified-operator-index:v4.9 file:///local/index -a ${REG_CREDS} --index-filter-by-os='linux/amd64' 
 ...
 error: unable to retrieve source image registry.connect.redhat.com/nvidia/gpu-operator-bundle manifest sha256:6383973010999a769a803ca4042a0c316b7206ae335deb618760315e11d8ef9a: Get "https://registry.connect.redhat.com/v2/nvidia/gpu-operator-bundle/manifests/sha256:6383973010999a769a803ca4042a0c316b7206ae335deb618760315e11d8ef9a": unauthorized: Please login to the Red Hat Registry using your Customer Portal credentials. Further instructions can be found here: https://access.redhat.com/RegistryAuthentication
 ...
@@ -454,5 +454,17 @@ spec:
     - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cuda
     source: docker.io/nvidia/cuda
 
+```
+
+
+## The mapping sha dose not exist
 
 ```
+[root@bastion mirror-operator]# grep d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf manifests-certified-operator-index-1650970579/mapping.txt 
+nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf=docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/driver:7b9e5988
+
+
+
+```
+
+https://docs.openshift.com/container-platform/4.9/operators/admin/olm-managing-custom-catalogs.html
