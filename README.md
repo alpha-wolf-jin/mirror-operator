@@ -379,6 +379,80 @@ docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/cert
 [root@bastion mirror-operator]# curl -u admin:redhat123 https://docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/v2/olm-mirror/certified-operator-index/tags/list
 {"name":"olm-mirror/certified-operator-index","tags":["v4.9"]}
 
+[root@bastion mirror-operator]# podman login --authfile ~/auth.json docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com
+
+[root@bastion mirror-operator]# podman login --authfile ~/auth.json registry.redhat.io 
+
+[root@bastion mirror-operator]# podman login --authfile ~/auth.json registry.connect.redhat.com
+
+[root@bastion mirror-operator]# oc adm catalog mirror docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9 docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com -a ${REG_CREDS} --index-filter-by-os='linux/amd64' --manifests-only
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! DEPRECATION NOTICE:
+!!   Sqlite-based catalogs are deprecated. Support for them will be removed in a
+!!   future release. Please migrate your catalog workflows to the new file-based
+!!   catalog format.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+src image has index label for database path: /database/index.db
+using index path mapping: /database/index.db:/tmp/480248347
+wrote database to /tmp/480248347
+using database at: /tmp/480248347/index.db
+no digest mapping available for docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9, skip writing to ImageContentSourcePolicy
+wrote mirroring manifests to manifests-certified-operator-index-1650970579
+
+[root@bastion mirror-operator]# cat manifests-certified-operator-index-1650970579/imageContentSourcePolicy.yaml
+---
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  labels:
+    operators.openshift.org/catalog: "true"
+  name: certified-operator-index-0
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/gpu-operator-bundle
+    source: registry.connect.redhat.com/nvidia/gpu-operator-bundle
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/gpu-operator
+    source: nvcr.io/nvidia/gpu-operator
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cuda
+    source: nvcr.io/nvidia/cuda
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/k8s-cuda-sample
+    source: nvcr.io/nvidia/k8s/cuda-sample
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/driver
+    source: nvcr.io/nvidia/driver
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cloud-native-k8s-driver-manager
+    source: nvcr.io/nvidia/cloud-native/k8s-driver-manager
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/k8s-container-toolkit
+    source: nvcr.io/nvidia/k8s/container-toolkit
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cloud-native-gpu-operator-validator
+    source: nvcr.io/nvidia/cloud-native/gpu-operator-validator
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cloud-native-dcgm
+    source: nvcr.io/nvidia/cloud-native/dcgm
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/k8s-device-plugin
+    source: nvcr.io/nvidia/k8s-device-plugin
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/k8s-dcgm-exporter
+    source: nvcr.io/nvidia/k8s/dcgm-exporter
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/gpu-feature-discovery
+    source: nvcr.io/nvidia/gpu-feature-discovery
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cloud-native-k8s-mig-manager
+    source: nvcr.io/nvidia/cloud-native/k8s-mig-manager
+  - mirrors:
+    - docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/nvidia/cuda
+    source: docker.io/nvidia/cuda
 
 
 ```
