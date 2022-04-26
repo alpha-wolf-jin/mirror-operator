@@ -117,11 +117,12 @@ Login Succeeded!
 
 ```
 
-```
+## Mirror ##
+
 **Authenticate with registry.redhat.io**
 
 ```
-[lab-user@bastion mirror]$ podman login -u YYYY -p XXXXX registry.redhat.io
+[root@bastion certs]# podman login registry.redhat.io --tls-verify=false
 
 ```
 
@@ -130,14 +131,25 @@ Login Succeeded!
 Run on one session
 
 ```
-[lab-user@bastion mirror]$ podman run -p50051:50051 -it registry.redhat.io/redhat/redhat-operator-index:v4.10
+[root@bastion certs]# oc get clusterversion
+NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
+version   4.9.0     True        False         13h     Cluster version is 4.9.0
+
+[root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/certified-operator-index:v4.9
 
 
 ```
 
 **Cannot find gpu operator**
+
 Open new session and run
+
 ```
+[root@bastion certs]# oc get clusterversion
+NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
+version   4.9.0     True        False         13h     Cluster version is 4.9.0
+[root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/redhat-operator-index:v4.9
+
 [lab-user@bastion mirror]$ grpcurl -plaintext localhost:50051 api.Registry/ListPackages > packages.out
 
 [lab-user@bastion mirror]$ grep -i gpu packages.out 
