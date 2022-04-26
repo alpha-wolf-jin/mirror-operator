@@ -295,9 +295,11 @@ To upload local images to a registry, run:
 error: unable to retrieve source image nvcr.io/nvidia/driver manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf: manifest unknown: manifest unknown
 ...
 
+# The digest `d46393d6...` does not exist
 [root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf
 FATA[0001] Error parsing image name "docker://nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf": Error reading manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf in nvcr.io/nvidia/driver: manifest unknown: manifest unknown 
 
+# the latest diges is `7d9d069db..`
 [root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver
 {
     "Name": "nvcr.io/nvidia/driver",
@@ -403,11 +405,5 @@ FATA[0001] Error parsing image name "docker://nvcr.io/nvidia/driver@sha256:d4639
     ]
 }
 
-# The digest `d46393d6...` does not exist
-[root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver | grep d46393d6
-[root@bastion mirror-operator]#
-
-# Tag works
-[root@bastion mirror-operator]# podman pull docker://nvcr.io/nvidia/driver:510.47.03-rhcos4.9
 
 ```
