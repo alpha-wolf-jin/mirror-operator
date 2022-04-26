@@ -10,7 +10,7 @@ Reference:
 
 [lab-user@bastion mirror]$ tar xvf grpcurl_1.8.6_linux_x86_64.tar.gz 
 
-[lab-user@bastion mirror]$ sudo mv grpcurl /usr/local/bin/.
+[lab-user@bastion mirror]$ sudo mv grpcurl /usr/local/sbin/.
 
 [lab-user@bastion mirror]$ grpcurl --version
 grpcurl v1.8.6
@@ -20,13 +20,28 @@ grpcurl v1.8.6
 [lab-user@bastion mirror]$ tar xvf opm-linux.tar.gz
 opm
 
-[lab-user@bastion mirror]$ sudo mv opm /usr/local/bin/.
+[lab-user@bastion mirror]$ sudo mv opm /usr/local/sbin/.
 
 [lab-user@bastion mirror]$ opm version
 Version: version.Version{OpmVersion:"b576eef43", GitCommit:"b576eef43e0d4c3745435a068b8bf42ec347eda3", BuildDate:"2022-04-11T10:00:52Z", GoOs:"linux", GoArch:"amd64"}
 
 ```
 
+**Podman need to be >1.8 for mirroring**
+
+Manually downlaod and upload podman 1.9.3 to the server.
+
+```
+[root@bastion ~]# podman version
+Version:            1.6.4
+
+[root@bastion ~]# yum localinstall -y /tmp/podman-1.9.3-2.module+el8.2.1+6867+366c07d6.x86_64.rpm
+
+[root@bastion ~]# podman version
+Version:            1.9.3
+
+
+```
 **Authenticate with registry.redhat.io**
 
 ```
@@ -131,4 +146,5 @@ subjectAltName = DNS:bastion.8g59s.internal, DNS:localhost
 {"repositories":[]}
 
 ```
+
 
