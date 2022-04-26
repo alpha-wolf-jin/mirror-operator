@@ -295,6 +295,8 @@ To upload local images to a registry, run:
 error: unable to retrieve source image nvcr.io/nvidia/driver manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf: manifest unknown: manifest unknown
 ...
 
+[root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf
+FATA[0001] Error parsing image name "docker://nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf": Error reading manifest sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf90740e354c0cf in nvcr.io/nvidia/driver: manifest unknown: manifest unknown 
 
 [root@bastion mirror-operator]# skopeo inspect --authfile /run/user/1000/containers/auth.json   docker://nvcr.io/nvidia/driver
 {
