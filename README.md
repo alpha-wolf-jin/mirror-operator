@@ -362,4 +362,23 @@ New mirror registry: docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentl
 
 user / Password:  admin:redhat123
 
+```
+[root@bastion mirror-operator]# opm index prune -f registry.redhat.io/redhat/certified-operator-index:v4.9 -p gpu-operator-certified -t docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9
 
+[root@bastion mirror-operator]# podman images
+REPOSITORY                                                                                             TAG      IMAGE ID       CREATED              SIZE
+docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index   v4.9     de7057658904   About a minute ago   64.5 MB
+
+[root@bastion mirror-operator]# podman login docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index
+
+[root@bastion mirror-operator]# podman push docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9
+
+[root@bastion mirror-operator]# curl -u admin:redhat123 https://docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/v2/_catalog
+{"repositories":["olm-mirror/certified-operator-index"]}
+
+[root@bastion mirror-operator]# curl -u admin:redhat123 https://docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/v2/olm-mirror/certified-operator-index/tags/list
+{"name":"olm-mirror/certified-operator-index","tags":["v4.9"]}
+
+
+
+```
