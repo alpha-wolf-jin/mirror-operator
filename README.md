@@ -468,3 +468,83 @@ nvcr.io/nvidia/driver@sha256:d46393d6bd5be020c78e1d45669d2bb3ac8681df13369ddbbbf
 ```
 
 https://docs.openshift.com/container-platform/4.9/operators/admin/olm-managing-custom-catalogs.html
+
+
+# Install Operator from Operator Hub
+
+### Disable the sources for the default catalogs by adding disableAllDefaultSources
+
+```
+[root@bastion mirror-operator]# oc patch OperatorHub cluster --type json \
+     -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": true}]'
+
+```
+
+
+### Adding a catalog source to a cluster
+
+```
+[root@bastion mirror-operator]# cat manifests-certified-operator-index-1650974014/catalogSource.yaml
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: certified-operator-index
+  namespace: openshift-marketplace
+spec:
+  image: docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9
+  sourceType: grpc
+
+[root@bastion mirror-operator]# oc apply -f manifests-certified-operator-index-1650974014/catalogSource.yaml
+
+[root@bastion mirror-operator]# oc get pods -n openshift-marketplace
+NAME                                    READY   STATUS             RESTARTS   AGE
+certified-operator-index-7xvp8          0/1     ImagePullBackOff   0          12m
+
+[root@bastion mirror-operator]# oc describe pod certified-operator-index-7xvp8 -n openshift-marketplace
+Name:         certified-operator-index-7xvp8
+...
+  Normal   BackOff         2m46s (x44 over 12m)  kubelet            Back-off pulling image "docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com/olm-mirror/certified-operator-index:v4.9"
+
+
+```
+
+
+# Add auth
+
+```
+[root@bastion mirror-operator]# oc get secret pull-secret -n openshift-config --template='{{index .data ".dockerconfigjson" | base64decode}}' | jq
+{
+  "auths": {
+    "cloud.openshift.com": {
+      "auth": "b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3JocGRzYWRtaW5zcmVkaGF0Y29tMWZyZ3NpZHV6cTJkem5zajNpdzBhdG1samg3OjJMSTFEVTM1MFVCQks1ODRCTFVBODBFTTU1V0RQRDNXRDI0Qko2Q0I5VzNFSFIzS0pSSFhOSFgyVllNMlFFMVQ=",
+      "email": "rhpds-admins@redhat.com"
+    },
+    "quay.io": {
+      "auth": "b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K3JocGRzYWRtaW5zcmVkaGF0Y29tMWZyZ3NpZHV6cTJkem5zajNpdzBhdG1samg3OjJMSTFEVTM1MFVCQks1ODRCTFVBODBFTTU1V0RQRDNXRDI0Qko2Q0I5VzNFSFIzS0pSSFhOSFgyVllNMlFFMVQ=",
+      "email": "rhpds-admins@redhat.com"
+    },
+    "registry.connect.redhat.com": {
+      "auth": "NTE1NDg0ODB8dWhjLTFGckdzSURVWlEyRHpuU0ozaVcwQXRtTEpoNzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXpPR1prTVdJNFpqYzJOamcwTmpKbVlXTTRaVFpsWVRnd09EUTJOMkkzTnlKOS5YUmQ5LS1LQ3kzVlpVbF9ldTc0THpQMFEzOVYwRUVfeWRZOE5pVGRScUlyd2hVRHYtcFF2ZEtLV1ZpVmlaQWF0QkhEUVdmVDB1Z2pfTWIzYmNPUktqSXdBNldQTXYxWTc1RmhYQUg1S2Myc3lnSHVxWTRfZlhSOXJnbW42N0l0MmhiUXJyb3BBNXlaYXpXSzhPeTBJb29VWFAteDBPUjZ2VDJTVGktbm5sblBLbEFSWTBEZkxJYmk3OHZlZXFadUpyUDl4SzlXdnRaOEZOREpzQnlUc2VmeFRoVmtLMDVwVDlhTk9nTkxITGJMeU5sdEc1RE9xU1JiZ1hLMDJ6RXNaU3BwYmZLdVAwNVJYQWljQy14WEZiamtLaFpkYTgwV3lnZDJKcTZXWVF3WW83ZXgtLUh1MEpKeXBTczRINVY0Nm50dTNVRlNVUERBZEJ5VmVDU2RxckpzUWZoSmlpLVdJbXdjWnp6LUNwTlRfNVo0ei1WUkc0aV9hVF9TWnVkQzVySmFLdFpHS1RQWlg0SDlNLWxDeFlHZDJNYzhuWlc4NWVUeTJPYnBVOHA2S19sU3A3Wm15RzhEbWh6bFAtYTQzb0J1V3hJTHg3Y283U3BkOFRyYVNRbjVnaFpvc0VKZGp6X2ljTlFhVktNazFHQjEwbU1uOXJBeGdUcm5qU09aSEZvcXdmX2Y2dnZFWi0ySUp2Qk91UUZRQThsZDlzRDVDb1ZWNEdwTWx1Rl8zZGJqcXhuVTE0WXdHT2RhSldSOEtMTlFwbU9RV0JrWFJIcVpwN01UT0ZDX0dMVDRWeGNTMXhva0p6RUFxN1c4NzBSQVo4VnAtUGdscEJCc2RDT2tfdGNCNEY5T2hkZ0NPb3JMNHJkZmp6cEJobUZuMEhzVkFFNGJkaWhfRjNGSQ==",
+      "email": "rhpds-admins@redhat.com"
+    },
+    "registry.redhat.io": {
+      "auth": "NTE1NDg0ODB8dWhjLTFGckdzSURVWlEyRHpuU0ozaVcwQXRtTEpoNzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXpPR1prTVdJNFpqYzJOamcwTmpKbVlXTTRaVFpsWVRnd09EUTJOMkkzTnlKOS5YUmQ5LS1LQ3kzVlpVbF9ldTc0THpQMFEzOVYwRUVfeWRZOE5pVGRScUlyd2hVRHYtcFF2ZEtLV1ZpVmlaQWF0QkhEUVdmVDB1Z2pfTWIzYmNPUktqSXdBNldQTXYxWTc1RmhYQUg1S2Myc3lnSHVxWTRfZlhSOXJnbW42N0l0MmhiUXJyb3BBNXlaYXpXSzhPeTBJb29VWFAteDBPUjZ2VDJTVGktbm5sblBLbEFSWTBEZkxJYmk3OHZlZXFadUpyUDl4SzlXdnRaOEZOREpzQnlUc2VmeFRoVmtLMDVwVDlhTk9nTkxITGJMeU5sdEc1RE9xU1JiZ1hLMDJ6RXNaU3BwYmZLdVAwNVJYQWljQy14WEZiamtLaFpkYTgwV3lnZDJKcTZXWVF3WW83ZXgtLUh1MEpKeXBTczRINVY0Nm50dTNVRlNVUERBZEJ5VmVDU2RxckpzUWZoSmlpLVdJbXdjWnp6LUNwTlRfNVo0ei1WUkc0aV9hVF9TWnVkQzVySmFLdFpHS1RQWlg0SDlNLWxDeFlHZDJNYzhuWlc4NWVUeTJPYnBVOHA2S19sU3A3Wm15RzhEbWh6bFAtYTQzb0J1V3hJTHg3Y283U3BkOFRyYVNRbjVnaFpvc0VKZGp6X2ljTlFhVktNazFHQjEwbU1uOXJBeGdUcm5qU09aSEZvcXdmX2Y2dnZFWi0ySUp2Qk91UUZRQThsZDlzRDVDb1ZWNEdwTWx1Rl8zZGJqcXhuVTE0WXdHT2RhSldSOEtMTlFwbU9RV0JrWFJIcVpwN01UT0ZDX0dMVDRWeGNTMXhva0p6RUFxN1c4NzBSQVo4VnAtUGdscEJCc2RDT2tfdGNCNEY5T2hkZ0NPb3JMNHJkZmp6cEJobUZuMEhzVkFFNGJkaWhfRjNGSQ==",
+      "email": "rhpds-admins@redhat.com"
+    }
+  }
+}
+
+[root@bastion mirror-operator]# podman login --authfile ~/pull-secret.json docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com
+
+[root@bastion mirror-operator]# oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=/root/pull-secret.json
+
+
+[root@bastion mirror-operator]# oc get secret pull-secret -n openshift-config --template='{{index .data ".dockerconfigjson" | base64decode}}' | jq 
+...
+    "docker-registry.apps.cluster-n2p5z.n2p5z.sandbox1445.opentlc.com": {
+      "auth": "YWRtaW46cmVkaGF0MTIz"
+    },
+...
+
+
+```
