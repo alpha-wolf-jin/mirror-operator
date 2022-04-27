@@ -546,5 +546,9 @@ Name:         certified-operator-index-7xvp8
     },
 ...
 
+[root@bastion mirror-operator]# oc get pod -n openshift-marketplace
+NAME                                    READY   STATUS    RESTARTS   AGE
+certified-operator-index-wb2r2          1/1     Running   0          12s
+marketplace-operator-6dc6dd9896-96ttl   1/1     Running   2          41h
 
 ```
