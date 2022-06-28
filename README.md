@@ -152,6 +152,7 @@ version   4.9.0     True        False         13h     Cluster version is 4.9.0
 [root@bastion certs]# podman run -p50051:50051 -it registry.redhat.io/redhat/certified-operator-index:v4.9
 
 ```
+> Note: https://access.redhat.com/solutions/6542281
 
 ## Mirroring an Operator catalog
 
