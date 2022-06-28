@@ -301,6 +301,14 @@ To upload local images to a registry, run:
 
 ```
 
+**Issure can not pull via sha**
+
+https://access.redhat.com/solutions/5515251
+
+Sample:
+```
+oc adm catalog mirror file://local/index/olm-mirror/redhat-operator-index:v4.10 quay.example.opentlc.com:8443/olm-mirror -a /root/pull-secet.txt --index-filter-by-os='.*'
+```
 
 
 **Error manifest unknown**
